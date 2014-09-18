@@ -48,10 +48,14 @@ assert(age >= 0, "A person's age cannot be less than zero")
 
 ```
 
-### For - > Range
+## For - > Range
 ```swift
 let names = ["Anna", "Alex", "Brian", "Jack"]
 let count = names.count
+
+for name in names {
+    println("Hello, \(name)!")
+}
 // 1.
 for i in 0..<count {
     println("Person \(i + 1) is called \(names[i])")
@@ -61,6 +65,18 @@ for character in "Dog!?" {
     println(character)
 }
 
+for _ in 1...power {
+    ...
+}
+
+let numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
+for (animalName, legCount) in numberOfLegs {
+    println("\(animalName)s have \(legCount) legs")
+}
+
+for var index = 0; index < 3; ++index {
+    println("index is \(index)")
+}
 ```
 
 ## Strings
@@ -152,7 +168,285 @@ if let oldValue = airports.updateValue("Dublin International", forKey: "DUB") {
 
 ```
 
-### Control Flow
+# Control Flow
+### IF
 ```swift
+temperatureInFahrenheit = 90
+if temperatureInFahrenheit <= 32 {
+    println("It's very cold. Consider wearing a scarf.")
+} else if temperatureInFahrenheit >= 86 {
+    println("It's really warm. Don't forget to wear sunscreen.")
+} else {
+    println("It's not that cold. Wear a t-shirt.")
+}
+// prints "It's really warm. Don't forget to wear sunscreen."
+```
 
+### Switch Case
+```swift
+/// Char String ///////////////////
+let someCharacter: Character = "e"
+switch someCharacter {
+case "a", "e", "i", "o", "u":
+    println("\(someCharacter) is a vowel")
+case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+"n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+    println("\(someCharacter) is a consonant")
+default:
+    println("\(someCharacter) is not a vowel or a consonant")
+}
+
+/// Number Range ///////////////////
+let count = 3_000_000_000_000
+let countedThings = "stars in the Milky Way"
+var naturalCount: String
+switch count {
+case 0:
+    naturalCount = "no"
+case 1...3:
+    naturalCount = "a few"
+case 4...9:
+    naturalCount = "several"
+case 10...99:
+    naturalCount = "tens of"
+case 100...999:
+    naturalCount = "hundreds of"
+case 1000...999_999:
+    naturalCount = "thousands of"
+default:
+    naturalCount = "millions and millions of"
+}
+println("There are \(naturalCount) \(countedThings).")
+// prints "There are millions and millions of stars in the Milky Way."
+
+/// Tuples ///////////////////
+let somePoint = (1, 1)
+switch somePoint {
+case (0, 0):
+    println("(0, 0) is at the origin")
+case (_, 0):
+    println("(\(somePoint.0), 0) is on the x-axis")
+case (0, _):
+    println("(0, \(somePoint.1)) is on the y-axis")
+case (-2...2, -2...2):
+    println("(\(somePoint.0), \(somePoint.1)) is inside the box")
+default:
+    println("(\(somePoint.0), \(somePoint.1)) is outside of the box")
+}
+// prints "(1, 1) is inside the box"
+
+/// VALUE binding ///////////////////
+let anotherPoint = (2, 0)
+switch anotherPoint {
+case (let x, 0):
+    println("on the x-axis with an x value of \(x)")
+case (0, let y):
+    println("on the y-axis with a y value of \(y)")
+case let (x, y):
+    println("somewhere else at (\(x), \(y))")
+}
+// prints "on the x-axis with an x value of 2"
+
+
+/// Where ///////////////////
+let yetAnotherPoint = (1, -1)
+switch yetAnotherPoint {
+case let (x, y) where x == y:
+    println("(\(x), \(y)) is on the line x == y")
+case let (x, y) where x == -y:
+    println("(\(x), \(y)) is on the line x == -y")
+case let (x, y):
+    println("(\(x), \(y)) is just some arbitrary point")
+}
+// prints "(1, -1) is on the line x == -y"
+```
+
+### Fallthrough
+Fallthrough like without break in Java.
+```swift
+et integerToDescribe = 5
+var description = "The number \(integerToDescribe) is"
+switch integerToDescribe {
+case 2, 3, 5, 7, 11, 13, 17, 19:
+    description += " a prime number, and also"
+    fallthrough
+default:
+    description += " an integer."
+}
+println(description)
+// prints "The number 5 is a prime number, and also an integer."
+```
+
+### Labeled Statements
+```swift
+gameLoop: while square != finalSquare {
+    if ++diceRoll == 7 { diceRoll = 1 }
+    switch square + diceRoll {
+    case finalSquare:
+        // diceRoll will move us to the final square, so the game is over
+        break gameLoop
+    case let newSquare where newSquare > finalSquare:
+        // diceRoll will move us beyond the final square, so roll again
+        continue gameLoop
+    default:
+        // this is a valid move, so find out its effect
+        square += diceRoll
+        square += board[square]
+    }
+}
+println("Game over!")
+
+```
+## Functions
+### 1
+```swift
+func sayHello(personName: String) -> String {
+    let greeting = "Hello, " + personName + "!"
+    return greeting
+}
+println(sayHello("Anna"))
+```
+
+### 2
+```swift
+func halfOpenRangeLength(start: Int, end: Int) -> Int {
+    return end - start
+}
+println(halfOpenRangeLength(1, 10))
+// prints "9"
+```
+
+### 3 Multiple Return Values
+```swift
+func minMax(array: [Int]) -> (min: Int, max: Int) {
+    var currentMin = array[0]
+    var currentMax = array[0]
+    for value in array[1..<array.count] {
+        if value < currentMin {
+            currentMin = value
+        } else if value > currentMax {
+            currentMax = value
+        }
+    }
+    return (currentMin, currentMax)
+}
+let bounds = minMax([8, -6, 2, 109, 3, 71])
+println("min is \(bounds.min) and max is \(bounds.max)")
+```
+
+### 4 Optional Tuple Return Types
+```swift
+func minMax(array: [Int]) -> (min: Int, max: Int)? {
+    if array.isEmpty { return nil }
+    var currentMin = array[0]
+    var currentMax = array[0]
+    for value in array[1..<array.count] {
+        if value < currentMin {
+            currentMin = value
+        } else if value > currentMax {
+            currentMax = value
+        }
+    }
+    return (currentMin, currentMax)
+}
+
+```
+
+### 5 External Parameter Names
+```swift
+func join(string s1: String, toString s2: String, withJoiner joiner: String)
+    -> String {
+        return s1 + joiner + s2
+}
+
+join(string: "hello", toString: "world", withJoiner: ", ")
+// returns "hello, world"
+```
+
+### 6 Shorthand External Parameter Names
+```swift
+func containsCharacter(#string: String, #characterToFind: Character) -> Bool {
+    for character in string {
+        if character == characterToFind {
+            return true
+        }
+    }
+    return false
+}
+let containsAVee = containsCharacter(string: "aardvark", characterToFind: "v")
+// containsAVee equals true, because "aardvark" contains a "v"
+```
+
+### 7 Default Parameter Values
+```swift
+func join(string s1: String, toString s2: String,
+    withJoiner joiner: String = " ") -> String {
+        return s1 + joiner + s2
+}
+```
+
+### 8 Variadic
+```swift
+func arithmeticMean(numbers: Double...) -> Double {
+    var total: Double = 0
+    for number in numbers {
+        total += number
+    }
+    return total / Double(numbers.count)
+}
+arithmeticMean(1, 2, 3, 4, 5)
+```
+
+### 9 Constant and Variable Parameters
+```swift
+func alignRight(var string: String, count: Int, pad: Character) -> String {
+        string = "" + string
+    return string
+}
+```
+
+### 10 In-Out Parameters
+```swift
+func swapTwoInts(inout a: Int, inout b: Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+
+var someInt = 3
+var anotherInt = 107
+swapTwoInts(&someInt, &anotherInt)
+println("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
+// prints "someInt is now 107, and anotherInt is now 3"
+```
+
+### 11 Function Types as Parameter Types
+```swift
+func printMathResult(mathFunction: (Int, Int) -> Int, a: Int, b: Int) {
+    println("Result: \(mathFunction(a, b))")
+}
+printMathResult(addTwoInts, 3, 5)
+// prints "Result: 8"
+```
+
+### 12 Function Types as Return Types
+```swift
+func chooseStepFunction(backwards: Bool) -> (Int) -> Int {
+    func stepForward(input: Int) -> Int { return input + 1 }
+    func stepBackward(input: Int) -> Int { return input - 1 }
+    return backwards ? stepBackward : stepForward
+}
+var currentValue = -4
+let moveNearerToZero = chooseStepFunction(currentValue > 0)
+// moveNearerToZero now refers to the nested stepForward() function
+while currentValue != 0 {
+    println("\(currentValue)... ")
+    currentValue = moveNearerToZero(currentValue)
+}
+println("zero!")
+// -4...
+// -3...
+// -2...
+// -1...
+// zero!
 ```
