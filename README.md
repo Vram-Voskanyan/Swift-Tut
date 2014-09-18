@@ -1,9 +1,7 @@
 Swift-Tut
 =========
-https://developer.apple.com/library/prerelease/mac/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html
-----------------------------------------------------------------
-http://www.raywenderlich.com/74438/swift-tutorial-a-quick-start
-## A
+- https://developer.apple.com/library/prerelease/mac/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html
+- http://www.raywenderlich.com/tutorials
 
 ### UInt
 ```swift
