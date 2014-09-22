@@ -2,6 +2,8 @@ Swift-Tut
 =========
 - https://developer.apple.com/library/prerelease/mac/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html
 - http://www.raywenderlich.com/tutorials
+- http://furbo.org/2014/09/03/xcode-vs-gatekeeper/
+- http://stackoverflow.com/questions/24567433/xcode-6-wont-start-os-x-10-9-4
 
 ### UInt
 ```swift
